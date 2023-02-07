@@ -1,0 +1,8 @@
+---
+- name: Copy vSphere certificates
+  copy:
+    src: /tmp/certs/lin/
+    dest: /etc/pki/ca-trust/source/anchors/
+
+- name: Update CA trust
+  command: update-ca-trust

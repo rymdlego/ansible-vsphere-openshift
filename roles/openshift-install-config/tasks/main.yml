@@ -1,0 +1,11 @@
+---
+- name: Ensure target folder exists
+  file:
+    path: install/{{ inventory_hostname }}
+    state: directory
+    mode: '0755'
+
+- name: Generate OpenShift install yaml
+  template:
+    src: install-config.yaml.j2
+    dest: install/{{ inventory_hostname }}/install-config.yaml

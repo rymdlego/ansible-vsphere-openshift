@@ -1,0 +1,13 @@
+---
+- name: Install OpenShift
+  hosts: openshift-clusters
+  connection: local
+  gather_facts: yes
+  serial: 1
+
+  roles:
+    - openshift-install-config
+    - openshift-install-download
+    - vsphere-certificates
+    - openshift-install
+    - gitops-bootstrap

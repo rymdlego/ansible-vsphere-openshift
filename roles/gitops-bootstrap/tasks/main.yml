@@ -1,0 +1,54 @@
+---
+- name: Ensure manifests folder exists
+  file:
+    path: install/{{ inventory_hostname }}/manifests
+    state: directory
+    mode: '0755'
+
+- name: Generate gitops-operator manifest
+  template:
+    src: gitops-operator.yaml.j2
+    dest: install/{{ inventory_hostname }}/manifests/gitops-operator.yaml
+
+- name: Generate gitops-clusterrolebinding manifest
+  template:
+    src: gitops-clusterrolebinding.yaml.j2
+    dest: install/{{ inventory_hostname }}/manifests/gitops-clusterrolebinding.yaml
+
+- name: Generate gitops-repository manifest
+  template:
+    src: gitops-repository.yaml.j2
+    dest: install/{{ inventory_hostname }}/manifests/gitops-repository.yaml
+
+- name: Generate gitops-application manifest
+  template:
+    src: gitops-application.yaml.j2
+    dest: install/{{ inventory_hostname }}/manifests/gitops-application.yaml
+
+- name: Deploy GitOps Operator
+  k8s:
+    kubeconfig: 'install/{{ inventory_hostname }}/auth/kubeconfig'
+    src: 'install/{{ inventory_hostname }}/manifests/gitops-operator.yaml'
+    state: present
+
+- name: Deploy GitOps ClusterRoleBinding
+  k8s:
+    kubeconfig: 'install/{{ inventory_hostname }}/auth/kubeconfig'
+    src: 'install/{{ inventory_hostname }}/manifests/gitops-clusterrolebinding.yaml'
+    state: present
+
+- name: Deploy GitOps Repository
+  k8s:
+    kubeconfig: 'install/{{ inventory_hostname }}/auth/kubeconfig'
+    src: 'install/{{ inventory_hostname }}/manifests/gitops-repository.yaml'
+    state: present
+  register: reporesult
+  until: "reporesult is not failed"
+  retries: 10
+  delay: 10
+
+- name: Deploy GitOps Application
+  k8s:
+    kubeconfig: 'install/{{ inventory_hostname }}/auth/kubeconfig'
+    src: 'install/{{ inventory_hostname }}/manifests/gitops-application.yaml'
+    state: present

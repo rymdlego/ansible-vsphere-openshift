@@ -1,0 +1,8 @@
+---
+- name: Run OpenShift install
+  command: /tmp/openshift-install create cluster --dir install/{{ inventory_hostname }}
+  register: install_output
+
+- name: Display output
+  debug:
+    var: install_output.stdout

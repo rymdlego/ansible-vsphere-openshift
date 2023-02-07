@@ -1,0 +1,8 @@
+---
+- name: Copy vSphere certificates
+  copy:
+    src: /tmp/certs/lin/
+    dest: /usr/local/share/ca-certificates/
+
+- name: Update CA trust
+  command: update-ca-certificates

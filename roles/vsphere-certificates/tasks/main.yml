@@ -1,0 +1,20 @@
+---
+- name: Download vSphere certificates
+  get_url:
+    url: https://{{ vsphere_vcenter }}/certs/download.zip
+    dest: /tmp/vsphere_certs.zip
+    mode: '0660'
+    validate_certs: no
+
+- name: Extract certs to /tmp/
+  unarchive:
+    src: /tmp/vsphere_certs.zip
+    dest: /tmp/
+
+- name: Debian specific
+  import_tasks: debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: RedHat specific
+  import_tasks: redhat.yml
+  when: ansible_os_family == "RedHat" or ansible_os_family == "Rocky"

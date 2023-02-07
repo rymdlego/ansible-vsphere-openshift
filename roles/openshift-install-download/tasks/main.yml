@@ -1,0 +1,8 @@
+---
+- name: Linux download
+  import_tasks: linux.yml
+  when: ansible_distribution != "MacOSX"
+
+- name: MacOSX download
+  import_tasks: mac.yml
+  when: ansible_distribution == "MacOSX"

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: repo-rb-gitops
+  namespace: openshift-gitops
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: {{ gitops_repository }}
+  name: {{ gitops_repository }}
+  username: {{ git_username }}
+  password: {{ git_password }}
+  insecure: "true"
+  project: default
