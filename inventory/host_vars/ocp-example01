@@ -18,3 +18,4 @@ vsphere_password: YOUR_VSPHERE_PASSWORD
 vsphere_username: YOUR_VSPHERE_USERNAME
 vsphere_vcenter: YOUR_VSPHERE_VCENTER_ADDRESS
 ssh_key: YOUR_PUBLIC_SSH_KEY
+ca_cert: YOUR_CA_CERT
